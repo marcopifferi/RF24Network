@@ -30,8 +30,8 @@ void RF24Network::begin(uint8_t _channel, uint16_t _node_address )
 
   node_address = _node_address;
 
-  if ( ! radio.isValid() )
-    return;
+  // if ( ! radio.isValid() )
+  //   return;
 
   // Set up the radio the way we want it to look
   radio.setChannel(_channel);
@@ -57,10 +57,10 @@ void RF24Network::update(void)
 {
   // if there is data ready
   uint8_t pipe_num;
-  while ( radio.isValid() && radio.available(&pipe_num) )
+  while ( /*radio.isValid() && */ radio.available(&pipe_num) )
   {
     // Dump the payloads until we've gotten everything
-    boolean done = false;
+    bool done = false;
     while (!done)
     {
       // Fetch the payload, and see if this was the last one.
@@ -308,7 +308,7 @@ bool RF24Network::write_to_pipe( uint16_t node, uint8_t pipe )
 const char* RF24NetworkHeader::toString(void) const
 {
   static char buffer[45];
-  snprintf_P(buffer,sizeof(buffer),PSTR("id %04x from 0%o to 0%o type %c"),id,from_node,to_node,type);
+  snprintf(buffer,sizeof(buffer),PSTR("id %04x from 0%o to 0%o type %c"),id,from_node,to_node,type);
   return buffer;
 }
 
